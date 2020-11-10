@@ -1,0 +1,5 @@
+# Manage environments and IDE
+.vscode/
+venv/
+.ipynb_checkpoints
+__pycache__
