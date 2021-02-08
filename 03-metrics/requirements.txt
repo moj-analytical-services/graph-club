@@ -1,0 +1,5 @@
+ipykernel
+networkx
+matplotlib
+nxviz
+pandas
