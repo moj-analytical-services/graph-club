@@ -1,9 +1,7 @@
 ---
-title: "Friends in Networks"
+title: "Community Detection Algorithms"
 output: html_notebook
 ---
-
-
 
 ```{r}
 library(igraph)
