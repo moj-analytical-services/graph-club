@@ -1,4 +1,5 @@
 ipykernel
 networkx
 matplotlib
-sparqlwrapper
+nxviz
+pandas
