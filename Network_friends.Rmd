@@ -1,0 +1,48 @@
+---
+title: "Friends in Networks"
+output: html_notebook
+---
+
+
+
+```{r}
+library(igraph)
+#install.packages("igraphdata")
+library(igraphdata)
+```
+
+```{r}
+data(karate)
+summary(karate)
+plot(karate)
+```
+
+```{r}
+net <- karate
+# Set the layout so that it does not change for each plot
+# and you can compare the community structures by sight:
+# Use the F.R algorithm:
+lfr <- layout_with_fr(net)
+vcol <- rep(rainbow(10)[4])
+# # Plot basic network to check
+ plot(net, layout=lfr, vertex.size=1.5, vertex.color = vcol,
+edge.width=0.4, vertex.label=NA, main="Basic Plot of Network")
+# Community Detection
+  # Based on edge betweenness:
+  ceb <- cluster_edge_betweenness(net)
+  plot(ceb, net, layout=lfr, vertex.size=2, vertex.color = vcol,
+  edge.width=0.4, vertex.label=NA,
+  main="Community Detection Based on Edge Betweenness")
+  # Based on Propogating labels:
+    clp <- cluster_label_prop(net)
+    plot(clp, net, layout=lfr, vertex.size=1.5, vertex.color = vcol,
+    edge.width=0.4, vertex.label=NA,
+    main="Community Detection Based on Propogating Labels")
+  # Based on optimisation of modularity:
+  cmo <- cluster_fast_greedy(net)
+  plot(cmo, net, layout=lfr, vertex.size=1.5, vertex.color = vcol,
+  edge.width=0.4, vertex.label=NA,
+  main="Optimisation of Modularity")
+
+```
+
