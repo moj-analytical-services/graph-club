@@ -5,9 +5,10 @@
 - [network science book](http://networksciencebook.com/) : 🖥 online version  🖥 of the Loscalzo, J., & Barabási, A. L. (2016). "Network science" book
 
 
-## Useful books to get started with graph/network theory
+## Useful intermediate books for graph/network theory
 
 
+<a href="https://www.springer.com/gp/book/9781493909834"><img src="pics/SANR1.png" alt="Statistical Network Analysis with R" width="250" height="400"> <a href="https://www.cambridge.org/core/books/social-network-analysis/90030086891EB3491D096034684EFFB8"><img src="pics/SNA1.png" alt="SocialNetworkAnalysis" width="250" height="400"><a href="https://global.oup.com/academic/product/networks-9780198805090?cc=gb&lang=en&"><img src="pics/Networks1.png" alt="Networks" width="250" height="400">
 
 
 ## Terminology
