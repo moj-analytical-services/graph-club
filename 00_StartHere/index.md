@@ -1,4 +1,15 @@
 
+## Useful websites to get started with graph/network theory
+
+- [d3 graph theory](https://d3gt.com/index.html) : 💥 Interactive and colorful 🎨 graph theory tutorials made using d3.js ⚡ 
+- [network science book](http://networksciencebook.com/) : 🖥 online version  🖥 of the Loscalzo, J., & Barabási, A. L. (2016). "Network science" book
+
+
+## Useful books to get started with graph/network theory
+
+
+
+
 ## Terminology
 
 Like any discipline, graphs/networks come with their own set of nomenclature. 
