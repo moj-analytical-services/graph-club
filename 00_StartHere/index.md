@@ -4,6 +4,7 @@
 - [d3 graph theory](https://d3gt.com/index.html) : 💥 Interactive and colorful 🎨 graph theory tutorials made using d3.js ⚡ 
 - [network science book](http://networksciencebook.com/) : 🖥 online version  🖥 of the Loscalzo, J., & Barabási, A. L. (2016). "Network science" book
 
+---
 
 ### Useful tutorials for getting started with graph/network analysis and visualisation in R & Python
 
@@ -13,14 +14,34 @@
 - [Social Network Analysis with Python and NetworkX](/NetworkX_SNA_workshop.ipynb) a Python/NetworkX workshop from Pydata_BCN
 - [Network-Analysis-Made-Simple](https://ericmjl.github.io/Network-Analysis-Made-Simple/) yet another great tutorial
 
-
+---
 
 ### Useful intermediate books for graph/network theory
 
-
 <a href="https://www.springer.com/gp/book/9781493909834"><img src="pics/SANR1.png" alt="Statistical Network Analysis with R" width="250" height="400"> <a href="https://www.cambridge.org/core/books/social-network-analysis/90030086891EB3491D096034684EFFB8"><img src="pics/SNA1.png" alt="SocialNetworkAnalysis" width="250" height="400"><a href="https://global.oup.com/academic/product/networks-9780198805090?cc=gb&lang=en&"><img src="pics/Networks1.png" alt="Networks" width="250" height="400">
 
+---
+    
+### Useful advanced course/book for machine learning with graphs    
 
+    
+Machine Learning with Graphs course:
+    
+- [CS224W: Machine Learning with Graphs course page](http://web.stanford.edu/class/cs224w/)
+- [CS224W: Machine Learning with Graphs course videos on youtube](https://www.youtube.com/playlist?list=PLoROMvodv4rPLKxIpqhjhPgdQy7imNkDn)
+
+    
+---
+    
+    
+Book:
+
+<a href="https://www.cs.mcgill.ca/~wlh/grl_book/files/GRL_Book.pdf"><img src="pics/GRLBOOK.jpg" alt="Graph Representation Learning" width="250" height="400">
+
+<br>
+    
+---
+    
 ### Terminology
 
 Like any discipline, graphs/networks come with their own set of nomenclature. 
