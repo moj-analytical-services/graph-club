@@ -1,0 +1,183 @@
+---
+title: "Communities and Centrality in R"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include = FALSE, echo=TRUE}
+library(igraph)
+library(igraphdata)
+library(tidygraph)
+library(dplyr)
+library(magrittr)
+library(ggraph)
+library(ggforce)
+library(networkD3)
+
+#Retrieve igraph data
+data("karate")
+#Isolate edges to understand the dataframe used to make the graph
+#Will be also good to see how we can use tidy graph instead of igraph
+edges <- get.edgelist(karate) %>%
+as.data.frame()
+
+from <- as.data.frame(edges$V1)
+to <- as.data.frame(edges$V2)
+colnames(from) <- c('v1')
+colnames(to) <- c('v1')
+#create nodes from dataframe
+nodes <- dplyr::bind_rows(from,to) %>%
+distinct() 
+colnames(nodes) <- c('karate_member')
+colnames(edges) <- c('from', 'to')
+```
+
+# Community Detection
+
+Look at the edges and nodes for our undirected network. 
+```{r }
+head(edges)
+
+head(nodes)
+
+#create node id
+nodes %<>% 
+    tibble::rowid_to_column("nodeid")  #create ids 
+```
+
+We'll use tidygraph to manipulate the object easily and pair with ggraph for plotting. Keep in mind that the clustering functions available in tidygraph are wrappers around the clustering functions provided by igraph. 
+
+The full list of available layouts and clustering functions can be found in the igraph documents. 
+
+```{r }
+tidykarate <- function(clustertype, layouttype){
+ tidygraph::tbl_graph(nodes, edges, directed = FALSE) %>%
+  activate(nodes) %>% #allows access to either the nodes or edges datasets, great for manipulation
+  mutate(community = as.factor(clustertype())) %>% 
+  ggraph(layout = layouttype) + 
+  geom_edge_link(aes(alpha = ..index..), show.legend = FALSE) + 
+  geom_node_point(aes(colour = community), size = 5) + 
+    geom_node_label(aes(label = karate_member), size = 2, repel = TRUE) +
+  theme_graph() 
+  }
+```
+
+### Plots with community membership
+
+Using betweenness for clustering & fruchterman reingold for the layout. 
+
+```{r}
+
+tidykarate(group_edge_betweenness, 'fr')
+```
+
+Using fast_greedy & fruchterman reingold
+
+```{r}
+tidykarate(group_fast_greedy, 'fr')
+```
+
+Using fast_greedy & kamada-kawai
+```{r}
+tidykarate(group_fast_greedy, 'kk')
+```
+
+# Ranking members in the network
+
+Calculate centrality and create tibble 
+```{r}
+#Calculate centrality and create tibble 
+nodeswithcen <-  tidygraph::tbl_graph(nodes, edges, directed = FALSE) %>%
+  activate(nodes) %>%
+  mutate(community = as.factor(group_fast_greedy()),
+    degree = tidygraph::centrality_degree(mode = "all"),
+    between = tidygraph::centrality_betweenness(),
+    eigen = tidygraph::centrality_eigen()) %>% 
+  as_tibble() 
+
+#Rank each node
+nodeswithcen %<>%
+  dplyr::mutate(degree_rank = dplyr::dense_rank(dplyr::desc(degree)),
+                between_rank = dplyr::dense_rank(dplyr::desc(between)),
+                eigen_rank = dplyr::dense_rank(dplyr::desc(eigen))) 
+
+#start id from 0
+#Replace names with numeric values in edges
+nodesd3 <- nodeswithcen %>%
+  mutate(nodeid = nodeid -1)
+#Replace names with numeric values in edges for d3
+edgesd3 <- edges %>%
+  left_join(nodesd3, by = c("from" = "karate_member")) %>% 
+  rename(source = nodeid) %>%
+  left_join(nodesd3, by = c("to" = "karate_member")) %>% 
+  rename(target = nodeid) %>%
+  select(source, target)
+
+edgesd3$value <- 1
+```
+
+Have a look at some of the nodes and their rank. Community is also added so that we can use it as node colour
+```{r}
+head(nodesd3)
+```
+
+Also have a look at the edges
+
+```{r}
+head(edgesd3)
+```
+
+We then use forceNetwork from the d3 package to create an interactive graph. Wrapping this inside a function will allow for easy changes in nodesize. We can use the centrality measures to change the size of the nodes.
+
+```{r}
+force_graph <- function(central){
+  forceNetwork(Links = edgesd3, Nodes = nodesd3, Source = "source", Target = "target",
+               Value = 'value', Group = 'community',
+               NodeID = "karate_member", Nodesize = central, 
+               colourScale = JS("d3.scaleOrdinal(d3.schemeCategory20);"), fontSize = 15,
+               fontFamily = "serif", linkDistance = 50,
+               linkWidth = JS("function(d) { return Math.sqrt(d.value); +10}"),
+               radiusCalculation = JS(" Math.sqrt(d.nodesize)+6"), charge = -500,
+               linkColour = "#666", opacity = 5, zoom = TRUE, legend = FALSE,
+               arrows = FALSE, bounded = FALSE, opacityNoHover = 0.8,
+               clickAction = NULL)
+}
+```
+
+Force network needs nodes starting from 0 and numeric inputs but tidygraph doesn't accept '0'
+
+```{r}
+#start id from 0
+#Replace names with numeric values in edges
+nodesd3 <- nodeswithcen %>%
+  mutate(nodeid = nodeid -1)
+#Replace names with numeric values in edges for d3
+edgesd3 <- edges %>%
+  left_join(nodesd3, by = c("from" = "karate_member")) %>% 
+  rename(source = nodeid) %>%
+  left_join(nodesd3, by = c("to" = "karate_member")) %>% 
+  rename(target = nodeid) %>%
+  select(source, target)
+
+edgesd3$value <- 1
+```
+
+### Plots with node size dependent on centrality measures
+
+Node size determined by number of connections
+```{r}
+force_graph('degree')
+```
+
+Node size determined by shortest paths - how each node acts as a bridge to other nodes
+```{r}
+force_graph('between')
+```
+
+Node size determined by influence and influencial connections
+```{r}
+force_graph('eigen')
+```
