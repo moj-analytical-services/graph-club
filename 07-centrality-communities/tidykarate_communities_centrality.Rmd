@@ -130,6 +130,8 @@ Also have a look at the edges
 head(edgesd3)
 ```
 
+We then use forceNetwork from the d3 package to create an interactive graph. Wrapping this inside a function will allow for easy changes in nodesize. We can use the centrality measures to change the size of the nodes.
+
 ```{r}
 force_graph <- function(central){
   forceNetwork(Links = edgesd3, Nodes = nodesd3, Source = "source", Target = "target",
@@ -161,23 +163,6 @@ edgesd3 <- edges %>%
   select(source, target)
 
 edgesd3$value <- 1
-```
-
-We then use forceNetwork from the d3 package to create an interactive graph. Wrapping this inside a function will allow for easy changes in nodesize. We can use the centrality measures to change the size of the nodes.
-
-```{r}
-force_graph <- function(central){
-  forceNetwork(Links = edgesd3, Nodes = nodesd3, Source = "source", Target = "target",
-               Value = 'value', Group = 'community',
-               NodeID = "karate_member", Nodesize = central, 
-               colourScale = JS("d3.scaleOrdinal(d3.schemeCategory20);"), fontSize = 15,
-               fontFamily = "serif", linkDistance = 50,
-               linkWidth = JS("function(d) { return Math.sqrt(d.value); +10}"),
-               radiusCalculation = JS(" Math.sqrt(d.nodesize)+6"), charge = -150,
-               linkColour = "#666", opacity = 5, zoom = TRUE, legend = FALSE,
-               arrows = FALSE, bounded = FALSE, opacityNoHover = 0.8,
-               clickAction = NULL)
-}
 ```
 
 ### Plots with node size dependent on centrality measures
