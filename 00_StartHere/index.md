@@ -11,7 +11,7 @@
 - [Network analysis with R starting point](/basic_igraph.R) to get acquainted with igraph/R (taken from a workshop created by Ognyanova, K 👇)
 - [Network analysis with R workshop](https://kateto.net/wp-content/uploads/2018/03/R%20for%20Networks%20Workshop%20-%20Ognyanova%20-%202018.pdf)
 - [Network visualization with R](https://kateto.net/network-visualization)  by Ognyanova, K. (2019)
-- [Social Network Analysis with Python and NetworkX](/NetworkX_SNA_workshop.ipynb) a Python/NetworkX workshop from Pydata_BCN
+- [Social Network Analysis with Python and NetworkX](https://github.com/moj-analytical-services/graph-club/blob/Tutorial_Branch/00_StartHere/NetworkX_SNA_workshop.ipynb) a Python/NetworkX workshop from Pydata_BCN
 - [Network-Analysis-Made-Simple](https://ericmjl.github.io/Network-Analysis-Made-Simple/) yet another great tutorial
 
 ---
